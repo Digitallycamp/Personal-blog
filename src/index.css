@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+body {
+	background-color: whitesmoke;
+	max-width: 680px;
+	margin: auto;
+	padding: 8px;
+}
+
+.dark {
+	color: #fff;
+	background-color: #080808;
+}
