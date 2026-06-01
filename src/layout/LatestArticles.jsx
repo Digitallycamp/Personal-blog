@@ -1,30 +1,79 @@
-import React from 'react';
 import { Link } from 'react-router';
-import { articles } from '.././utils/data';
-function LatestArticles() {
-	return (
-		<div className='flex flex-col  px-6 pb-6'>
-			<h2 className='flex items-end gap-2 text-2xl font-bold mb-8'>
-				Latest Articles <span className='w-10 h-1 bg-blue-500 block'></span>
-			</h2>
+import { useEffect, useState } from 'react';
+import { articleAPI } from '../services/api';
+import ArticleCard from '../components/ArticleCard';
 
-			<section>
-				<article className='flex flex-col space-y-4'>
-					{articles.map((article) => (
-						<Link key={article.id} to={`/blog/${article.id}`}>
-							<h3>{article.title}</h3>
-							<span className=' italic text-neutral-500 '>
-								{article.createdAt.toLocaleString()}
-							</span>
-						</Link>
-					))}
-					<Link className='border-b-4 border-b-blue-500 w-fit'>
-						View all articles
-					</Link>
-				</article>
-			</section>
-		</div>
-	);
+
+function LatestArticles() {
+
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    loadArticles();
+  }, []);
+
+  const loadArticles = async () => {
+    try {
+      setLoading(true);
+      const response = await articleAPI.getAll();
+      console.log('API Response:', response.data);
+      setArticles(response.data.data || []);
+    } catch (err) {
+      console.error('Error loading articles:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <h2>Loading articles...</h2>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px', color: 'red' }}>
+        <h2>Error: {error}</h2>
+        <p>Make sure the backend is running on http://localhost:5001</p>
+      </div>
+    );
+  }
+    
+
+    return (
+        <div className='flex flex-col  px-6 pb-6'>
+            <h2 className='flex items-end gap-2 text-2xl font-bold mb-8'>
+                Latest Articles <span className='w-10 h-1 bg-blue-500 block'></span>
+            </h2>
+
+            <section>
+                <div className="blog-listing" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+                      
+                      {articles.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '50px' }}>
+                          <h3>No articles yet</h3>
+                          <p>Check back soon for new content!</p>
+                        </div>
+                      ) : (
+                        <div className="articles-list">
+                          {articles.map(article => (
+                            <ArticleCard key={article._id} article={article} />
+                          ))}
+                        </div>
+                      )}
+                </div>
+            </section>
+			<Link to = '/blog' className='border-b-4 border-b-blue-500 w-fit'>
+				View all articles
+			</Link>
+        </div>
+    );
 }
 
 export default LatestArticles;
