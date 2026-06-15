@@ -8,6 +8,7 @@ import NewsLetter from './routes/NewsLetter.jsx';
 import NavBar from './layout/NavBar.jsx';
 import Footer from './layout/Footer.jsx';
 import Blog from './routes/Blog.jsx';
+import Blogs from './routes/Blogs.jsx';
 
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
 				<Route index element={<Home />} />
 				<Route path='blog/:blogId' element={<Blog />} />
 				<Route path='newsletter' element={<NewsLetter />} />
+				<Route path='blogs' element={<Blogs />} />
 			</Routes>
 			<Footer />
 		</BrowserRouter>

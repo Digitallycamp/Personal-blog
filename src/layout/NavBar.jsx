@@ -29,7 +29,7 @@ function NavBar() {
 									: links.name == 'about'
 									? '#about'
 									: links.name == 'blog'
-									? '#blog'
+									? 'blogs'
 									: links.name
 							}`}
 							key={index}
