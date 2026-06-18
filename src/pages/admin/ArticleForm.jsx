@@ -450,7 +450,7 @@ const styles = {
   },
   submitButton: {
     padding: '10px 24px',
-    backgroundColor: '#28a745',
+    backgroundColor: '#3b82f6',
     color: 'white',
     border: 'none',
     borderRadius: '6px',
